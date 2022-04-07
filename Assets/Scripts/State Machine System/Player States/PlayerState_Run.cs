@@ -2,13 +2,17 @@
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Run", fileName = "PlayerState_Run")]
-public class PlayerState_Run: PlayerState
+public class PlayerState_Run : PlayerState
 {
-    [SerializeField] private float runSpeed=5f;
+    [SerializeField] private float runSpeed = 5f;
+
+    [SerializeField] private float accelration = 5f;
+
     public override void OnEnter()
     {
-        base.OnEnter();
         animator.Play($"Run");
+
+        currentSpeed = runSpeed;
     }
 
     public override void OnUpdate()
@@ -17,10 +21,12 @@ public class PlayerState_Run: PlayerState
         {
             playerStateMachine.SwitchState(typeof(PlayerState_Idle));
         }
+
+        currentSpeed = Mathf.MoveTowards(currentSpeed, runSpeed, accelration * Time.deltaTime);
     }
 
     public override void OnFixedUpdate()
     {
-        player.Move(runSpeed);
+        player.Move(currentSpeed);
     }
 }

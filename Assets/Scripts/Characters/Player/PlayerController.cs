@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
+    public float MoveSpeed => Math.Abs(_rigidbody.velocity.x);
     private void Awake()
     {
         _input = GetComponent<PlayerInput>();
